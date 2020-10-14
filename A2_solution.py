@@ -42,7 +42,17 @@ Asserts:      text and base are strings
 ---------------------------------------------------
 """
 def get_positions(text,base):
-    # your code here
+    
+    assert type(text) == str
+    assert type(base) == str
+
+    positions = []
+
+    for i in range(len(text)):
+        for j in range(len(base)):
+            if text[i] == base[j]:
+                positions.append([base[j], i])
+
     return positions
 
 """
