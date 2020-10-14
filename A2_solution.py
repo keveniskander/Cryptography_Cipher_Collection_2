@@ -152,29 +152,38 @@ def shift_string(text,shifts,direction='l'):
 
     updated_text = text
     accepted_directions = 'rRlL'
+
     if direction not in accepted_directions:
         direction = 'l'
+
+    if abs(shifts) > len(text):
+        if shifts > 0:
+            shifts = shifts % len(text)
+        else:
+            shifts = abs(shifts) % len(text)
+            shifts = -shifts
+            # print('less')
 
     if shifts > 0:
 
         if direction == 'r' or direction == 'R':
             
             updated_text = updated_text[-shifts:] + updated_text[:-shifts]
-            print('r1')
+            # print('r1')
         if direction == 'l' or direction == 'L':
         
             updated_text = updated_text[shifts:] + updated_text[:shifts]
-            print('l1')
+            # print('l1')
 
     elif shifts < 0:
         if direction == 'r' or direction == 'R':
             
             updated_text = updated_text[-shifts:] + updated_text[:-shifts]
-            print('r2')
+            # print('r2')
         if direction == 'l' or direction == 'L':
-        
+            
             updated_text = updated_text[shifts:] + updated_text[:shifts]
-            print('l2')
+            # print('l2')
 
     return updated_text
 
