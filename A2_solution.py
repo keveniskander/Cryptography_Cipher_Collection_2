@@ -284,3 +284,136 @@ Description:  Cryptanalysis of Block Rotate Cipher
 def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
     # your code here
     return '',''
+
+"""
+----------------------------------------------------
+            Task 3: Wheatstone Playfair Cipher
+----------------------------------------------------
+"""
+
+"""
+----------------------------------------------------
+Parameters:   text (str)
+Return:       f_text (str): formatted text
+Description:  Formats a plaintext
+              1- Every W/w is converted to VV/vv
+              2- Append an x if the text length is odd (excluding non-alpha chars)
+              3- Convert every double character pair ## to #x or #X
+----------------------------------------------------
+"""
+def _format_playfair(plaintext):
+    # your code here
+    return f_plaintext
+
+"""
+----------------------------------------------------
+Parameters:   text (str)
+Return:       r_text (str): restored text
+Description:  Restores a plaintext by:
+              1- Converting VV/vv back to W/w
+              2- Append an x if the text length is odd (excluding non-alpha chars)
+              3- Convert every double character pair ## to #x or #X
+Asserts:      None
+----------------------------------------------------
+"""
+def _restore_playfair(text):   
+    # your code here
+    return r_text
+
+"""
+----------------------------------------------------
+Parameters:   word (str)
+              dict_list (list): 2d dictionary list
+Return:       r_word (str): restored word
+Description:  Restores a word by removing the 'x' character whenever necessary
+              Assumes a word has no more than two x's
+              Assumes word is either lower, UPPER or Capitalized
+Asserts:      None
+----------------------------------------------------
+"""
+def _restore_word_playfair(word,dict_list):
+    # your code here
+    return new_word
+
+"""
+----------------------------------------------------
+Parameters:   plaintext(str)
+              key (list): Playfair Square
+Return:       ciphertext (str)
+Description:  Encryption using Wheatstone Playfair Cipher
+              Preserves all non-alpha characters
+              Preserves case of characters
+              Uses vv for w
+              Invokes _format_playfair utility function
+Asserts:      plaintext is a string and key is a list
+----------------------------------------------------
+"""
+def e_playfair(plaintext, key):
+    # your code here
+    return ciphertext
+
+"""
+----------------------------------------------------
+Parameters:   ciphertext(str)
+              key (list): Playfair Square
+Return:       plaintext (str)
+Description:  Decryption using Wheatstone Playfair Cipher
+              Invokes _restore_playfair function to restore plaintext
+Asserts:      ciphertext is a string and key is a list
+----------------------------------------------------
+"""
+def d_playfair(ciphertext, key):
+    # your code here
+    return plaintext
+
+"""
+----------------------------------------------------
+        Task 4: Columnar Transposition Cipher
+----------------------------------------------------
+"""
+
+"""
+----------------------------------------------------
+Parameters:   key (str)           
+Return:       key_order (list)
+Description:  Returns key order, e.g. [face] --> [1,2,3,0]
+              If invalid key --> return []
+              Applies to all ASCII characters from space to ~
+Asserts:      None
+----------------------------------------------------
+"""
+def _get_order_ct(key):
+    # your code here
+    return key_order
+
+"""
+----------------------------------------------------
+Parameters:   plaintext (str)
+              kye (str)
+Return:       ciphertext (list)
+Description:  Encryption using Columnar Transposition Cipher
+              Does not include whitespaces in encryption
+              Uses padding
+Asserts:      plaintext is a string
+Errors:       if key is invalid:
+                print: Error(e_ct): invalid key
+----------------------------------------------------
+"""
+def e_ct(plaintext,key):
+    # your code here
+    return ciphertext
+
+"""
+----------------------------------------------------
+Parameters:   ciphertext (str)
+              kye (str)
+Return:       plaintext (list)
+Description:  Decryption using Columnar Transposition Cipher
+Asserts:      ciphertext is a string
+Errors:       if key is invalid:
+                print: Error(d_ct): invalid key
+----------------------------------------------------
+"""
+def d_ct(ciphertext,key):
+    # your code here
+    return plaintext
