@@ -114,7 +114,23 @@ Asserts:      text is a string and b_size is a positive integer
 ---------------------------------------------------
 """
 def text_to_blocks(text,b_size,padding = 0,pad =PAD):
-    # your code here
+    
+    assert type(text) == str
+    assert type(b_size) == int
+    assert b_size > 0
+
+    blocks = []
+    i = 0
+    
+    while i < (len(text)):
+        if len(text) - i < b_size and padding == 1:
+           
+            # print('hey2')
+            blocks.append(text[i:i+b_size] + (pad * (b_size-(len(text)-i))))
+                
+        else:
+            blocks.append(text[i:i+b_size])
+        i+=b_size
     return blocks
 
 """
