@@ -69,7 +69,6 @@ def clean_text(text,base):
     assert type(text) == str
     assert type(base) == str
 
-    # updated_text = text
     updated_text = text
 
     for i in range(len(text)):
@@ -91,7 +90,14 @@ Asserts:      text is a string and positions is a list
 ---------------------------------------------------
 """
 def insert_positions(text, positions):
-    # your code here
+    
+    assert type(text) == str
+    assert type(positions) == list
+
+    updated_text = text
+
+    for i in range(len(positions)):
+        updated_text = updated_text[:positions[i][1]] + positions[i][0] + updated_text[positions[i][1]:]
     return updated_text
 
 """
