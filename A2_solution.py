@@ -157,6 +157,7 @@ def shift_string(text,shifts,direction='l'):
         direction = 'l'
 
     if abs(shifts) > len(text):
+
         if shifts > 0:
             shifts = shifts % len(text)
         else:
@@ -199,7 +200,16 @@ Asserts:      input_list is a list
 ---------------------------------------------------
 """
 def index_2d(input_list,item):
-    # your code here
+    
+    assert type(input_list) == list
+
+    for i in range(len(input_list)):
+        j = 0
+        while j < len(input_list[i]):
+            if input_list[i][j] == item:
+                return i, j
+            j+=1
+        
     return -1,-1
 
 """
