@@ -65,7 +65,20 @@ Asserts:      text and base are strings
 ---------------------------------------------------
 """
 def clean_text(text,base):
-    # your code here
+    
+    assert type(text) == str
+    assert type(base) == str
+
+    # updated_text = text
+    updated_text = text
+
+    for i in range(len(text)):
+        for j in range(len(base)):
+            if text[i] == base[j]:
+                # print('ha', end='')
+                updated_text = updated_text.replace(base[j], '')
+
+
     return updated_text
 
 """
