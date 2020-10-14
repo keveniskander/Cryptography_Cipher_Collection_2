@@ -145,8 +145,24 @@ Description:  Shift a given string by given number of shifts (circular shift)
 Asserts:      text is a string and shifts is an integer
 ---------------------------------------------------
 """
-def shift_string(text,shifts,direction):
-    # your code here
+def shift_string(text,shifts,direction='l'):
+    
+    assert type(text) == str
+    assert type(shifts) == int
+
+    updated_text = text
+    if direction == None:
+        direction = 'L'
+    if direction == 'r' or direction == 'R' or shifts > 0:
+        
+       updated_text = updated_text[shifts:] + updated_text[:shifts]
+    if direction == 'l' or direction == 'L' or shifts:
+       
+        updated_text = updated_text[shifts:] + updated_text[:shifts]
+    if shifts < 0:
+
+        updated_text = updated_text[-shifts:] + updated_text[:-shifts]
+
     return updated_text
 
 """
