@@ -151,22 +151,25 @@ def shift_string(text,shifts,direction='l'):
     assert type(shifts) == int
 
     updated_text = text
+    accepted_directions = 'rRlL'
+    if direction not in accepted_directions:
+        direction = 'l'
 
     if shifts > 0:
 
         if direction == 'r' or direction == 'R':
             
-            updated_text = updated_text[:shifts] + updated_text[shifts:]
+            updated_text = updated_text[-shifts:] + updated_text[:-shifts]
             print('r1')
         if direction == 'l' or direction == 'L':
         
             updated_text = updated_text[shifts:] + updated_text[:shifts]
             print('l1')
 
-    if shifts < 0:
+    elif shifts < 0:
         if direction == 'r' or direction == 'R':
             
-            updated_text = updated_text[:shifts] + updated_text[shifts:]
+            updated_text = updated_text[-shifts:] + updated_text[:-shifts]
             print('r2')
         if direction == 'l' or direction == 'L':
         
