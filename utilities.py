@@ -146,6 +146,9 @@ Description:  Utility function to read contents of a file
 """
 def file_to_text(filename):
     # put your code here
+    infile = open(filename,'r')
+    contents = infile.read()
+    infile.close()
     return contents
 
 """
@@ -159,6 +162,9 @@ Description:  Utility function to write any given text to a file
 """
 def text_to_file(text, filename):
     # put your code here
+    outfile = open(filename,'w')
+    outfile.write(text)
+    outfile.close()
     return
 
 """
@@ -173,7 +179,9 @@ Description:  Create an empty matrix of size r x c
 """
 def new_matrix(r,c,fill):
     # put your code here
-    return []
+    r = r if r >= 2 else 2
+    c = c if c>=2 else 2
+    return [[fill] * c for i in range(r)]
 
 """
 ----------------------------------------------------
@@ -186,6 +194,10 @@ def new_matrix(r,c,fill):
 """
 def matrix_to_string(matrix):
     # put your code here
+    text = ""
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            text+=matrix[i][j]
     return text
 
 """
@@ -200,7 +212,27 @@ Asserts:      dict_file is a non-empty string
 ---------------------------------------------------
 """
 def load_dictionary(dict_file):
-    # put your code here
+
+    assert type(dict_file) == str, 'invalid dict_file'
+    assert len(dict_file) > 0, 'invalid dict_file'
+
+    alpha = 'abcdefghijklmnopqrstuvwxyz'
+    dict_list = [[] for i in range(len(alpha))]
+
+    # print(dict_list)
+    file1 = open(dict_file, encoding="ISO-8859-15")
+    # a = len(alpha) 
+    line = file1.readline() 
+
+    while line:
+
+        line = line.strip()
+        b = alpha.find(line[0])
+        dict_list[b].append(line)
+
+        line = file1.readline()
+        
+
     return dict_list
 
 """
@@ -215,5 +247,18 @@ Asserts:      text is a string
 ---------------------------------------------------
 """
 def text_to_words(text):
-    # put your code here
+
+    assert type(text) == str, 'invalid text'
+
+    special_char = get_base('special')
+    word_list = text.split()
+    for a in range(len(word_list)):
+
+        if len(word_list[a])>1:
+            word_list[a] = word_list[a].rstrip(special_char)
+            word_list[a] = word_list[a].lstrip(special_char)
+
+        if word_list[a] == '':
+            word_list[a] = ' '
+
     return word_list
