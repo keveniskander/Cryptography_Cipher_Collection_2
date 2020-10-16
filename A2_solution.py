@@ -341,6 +341,9 @@ Description:  Cryptanalysis of Block Rotate Cipher
 def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
 
     dict_list = utilities.load_dictionary(DICT_FILE)
+
+    # if arguments[1] == 0:
+    #     arguments[1] = BLOCK_MAX_SIZE
     
     if (arguments[0] > 0 and arguments[1]> 0) and (arguments[0] == arguments[1]) and arguments[2] == 0:
         for i in range(arguments[1]):
@@ -352,8 +355,22 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
         
 
     if (arguments[0] == 0 and arguments[1] == 0) and (arguments[2] > 0):
-        return (arguments[1],0), d_block_rotate(ciphertext, (arguments[1],0))
+        
+        for i in range(arguments[0], arguments[1]):
 
+            text = d_block_rotate(ciphertext, i, arguments[2])
+            if utilities.is_plaintext(text, dict_list) == True:
+                return (i, arguments[2]), d_block_rotate(ciphertext, i, arguments[2])
+
+    if (arguments[0] > 0 or arguments[1] > 0) and (arguments[2] > 0):
+        # print('test')
+        for i in range(arguments[0], arguments[1]): 
+
+            text = d_block_rotate(ciphertext, i, arguments[2])
+            if utilities.is_plaintext(text, dict_list) == True:
+                return (i, arguments[2]), d_block_rotate(ciphertext, i, arguments[2])
+
+        
     # if (arguments[0] > 0 and arguments[1]> 0):
     #     for i in range()
 
