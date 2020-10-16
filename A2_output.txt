@@ -51,7 +51,7 @@ End of Task 1: Utilities Testing
 Start of Task 2: Block Rotation Cipher
 
 Testing adjust Key:
-(4,3.5)	--> (4, 1)
+(4,3.5)	--> (0, 0)
 [4, 5]	--> (0, 0)
 10	--> (0, 0)
 (-2,1)	--> (0, 0)

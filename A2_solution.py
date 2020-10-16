@@ -229,7 +229,22 @@ Asserts:      None
 ---------------------------------------------------
 """
 def _adjust_key_block_rotate(key):
-    # your code here
+
+    updated_key = 0,0
+    
+    if type(key) == tuple:
+        if isinstance(key[0], int) and isinstance(key[1], int) and key[0]>0:
+            temp0 = key[0]
+            temp1 = key[1]
+            
+            while (temp1>temp0):
+                temp1 = temp1 - temp0
+            while (temp1<0):
+                if temp0 + temp1 < temp0:
+                    temp1 = temp1 + temp0
+            updated_key = (temp0, temp1)
+            
+
     return updated_key
 
 """
