@@ -358,21 +358,41 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
         
         for i in range(arguments[0], arguments[1]):
 
-            text = d_block_rotate(ciphertext, i, arguments[2])
+            text = d_block_rotate(ciphertext, (i, arguments[2]))
             if utilities.is_plaintext(text, dict_list) == True:
-                return (i, arguments[2]), d_block_rotate(ciphertext, i, arguments[2])
+                return (i, arguments[2]), d_block_rotate(ciphertext, (i, arguments[2]))
 
-    if (arguments[0] > 0 or arguments[1] > 0) and (arguments[2] > 0):
+    if (arguments[0] > 0 or arguments[1]> 0) and arguments[2] == 0:
         # print('test')
+        
+        if arguments[1] == 0:
+            arguments[1] = BLOCK_MAX_SIZE
+        if arguments[0] == 0:
+            arguments[0] = 1
+        print(arguments[0], arguments[1])
         for i in range(arguments[0], arguments[1]): 
 
-            text = d_block_rotate(ciphertext, i, arguments[2])
-            if utilities.is_plaintext(text, dict_list) == True:
-                return (i, arguments[2]), d_block_rotate(ciphertext, i, arguments[2])
+            for j in range(arguments[1]):
+                
+                text = d_block_rotate(ciphertext, (i, j))
+                if utilities.is_plaintext(text, dict_list) == True:
+                    return (i, j), d_block_rotate(ciphertext, (i, j))
 
         
-    # if (arguments[0] > 0 and arguments[1]> 0):
-    #     for i in range()
+    if (arguments[0] == 0 and arguments[1] == 0 and arguments[2] == 0):
+        if arguments[1] == 0:
+            arguments[1] = BLOCK_MAX_SIZE
+        if arguments[0] == 0:
+            arguments[0] = 1
+
+        for i in range(arguments[0], arguments[1]): 
+
+            for j in range(arguments[1]):
+                
+                text = d_block_rotate(ciphertext, (i, j))
+                if utilities.is_plaintext(text, dict_list) == True:
+                    return (i, j), d_block_rotate(ciphertext, (i, j))
+    
 
     return '',''
 
