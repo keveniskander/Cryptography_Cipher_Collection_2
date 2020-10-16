@@ -351,7 +351,7 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
             text = d_block_rotate(ciphertext, (arguments[1], i))
             # print(text)
             if utilities.is_plaintext(text, dict_list) == True:
-                return (arguments[1],i), d_block_rotate(ciphertext, (arguments[1],i))
+                return (arguments[1],i), text
         
 
     if (arguments[0] == 0 and arguments[1] == 0) and (arguments[2] > 0):
@@ -360,7 +360,7 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
 
             text = d_block_rotate(ciphertext, (i, arguments[2]))
             if utilities.is_plaintext(text, dict_list) == True:
-                return (i, arguments[2]), d_block_rotate(ciphertext, (i, arguments[2]))
+                return (i, arguments[2]), text
 
     if (arguments[0] > 0 or arguments[1]> 0) and arguments[2] == 0:
         # print('test')
@@ -369,14 +369,15 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
             arguments[1] = BLOCK_MAX_SIZE
         if arguments[0] == 0:
             arguments[0] = 1
-        print(arguments[0], arguments[1])
+        # print(arguments[0], arguments[1])
         for i in range(arguments[0], arguments[1]): 
 
             for j in range(arguments[1]):
                 
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
-                    return (i, j), d_block_rotate(ciphertext, (i, j))
+                    print(text)
+                    return (i, j), text
 
         
     if (arguments[0] == 0 and arguments[1] == 0 and arguments[2] == 0):
@@ -391,7 +392,7 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
                 
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
-                    return (i, j), d_block_rotate(ciphertext, (i, j))
+                    return (i, j), text
     
 
     return '',''
