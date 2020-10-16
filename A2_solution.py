@@ -261,7 +261,25 @@ Errors:       if invalid key:
 ---------------------------------------------------
 """
 def e_block_rotate(plaintext,key):
-    # your code here
+    
+    assert type(plaintext) == str
+
+    ciphertext = ''
+
+    key = _adjust_key_block_rotate(key)
+    if key == (0,0):
+        print("Error(e_block_rotate): invalid key")
+    
+    plainblocks = text_to_blocks(plaintext, key[0], padding=1, pad=PAD)
+    # print(cipherblocks)
+
+    for i in range(len(plainblocks)):
+        plainblocks[i] = shift_string(plainblocks[i], key[1], direction='l')
+        ciphertext = ciphertext + plainblocks[i]
+
+    # for j in range(len(cipherblocks)):
+    #     ciphertext = ciphertext + cipherblocks[j]
+    
     return ciphertext
 
 """
@@ -278,7 +296,22 @@ Errors:       if invalid key:
 ---------------------------------------------------
 """
 def d_block_rotate(ciphertext,key):
-    # your code here
+    
+    assert type(ciphertext) == str
+
+    plaintext = ''
+
+    key = _adjust_key_block_rotate(key)
+    if key == (0,0):
+        print("Error(e_block_rotate): invalid key")
+
+    cipherblocks = text_to_blocks(ciphertext, key[0])
+
+    for i in range(len(cipherblocks)):
+        cipherblocks[i] = shift_string(cipherblocks[i], key[1], direction='r')
+        plaintext = plaintext + cipherblocks[i].rstrip('q')
+
+
     return plaintext
 
 """
