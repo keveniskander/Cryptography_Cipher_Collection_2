@@ -317,9 +317,10 @@ def d_block_rotate(ciphertext,key):
 
     for i in range(len(cipherblocks)):
         cipherblocks[i] = shift_string(cipherblocks[i], key[1], direction='r')
-        plaintext = plaintext + cipherblocks[i].rstrip('q')
+        plaintext = plaintext + cipherblocks[i]
 
     plaintext = insert_positions(plaintext, space_positions)
+    plaintext = plaintext.rstrip('q')
 
     return plaintext
 
@@ -376,7 +377,7 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
                 
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
-                    print(text)
+                    # print(text)
                     return (i, j), text
 
         
