@@ -265,6 +265,9 @@ def e_block_rotate(plaintext,key):
     assert type(plaintext) == str
 
     ciphertext = ''
+    
+    space_positions = get_positions(plaintext, '\n')
+    plaintext = clean_text(plaintext, '\n')
 
     key = _adjust_key_block_rotate(key)
     if key == (0,0):
@@ -279,6 +282,8 @@ def e_block_rotate(plaintext,key):
 
     # for j in range(len(cipherblocks)):
     #     ciphertext = ciphertext + cipherblocks[j]
+
+    ciphertext = insert_positions(ciphertext, space_positions)
     
     return ciphertext
 
@@ -300,6 +305,9 @@ def d_block_rotate(ciphertext,key):
     assert type(ciphertext) == str
 
     plaintext = ''
+    
+    space_positions = get_positions(ciphertext, '\n')
+    ciphertext = clean_text(ciphertext, '\n')
 
     key = _adjust_key_block_rotate(key)
     if key == (0,0):
@@ -311,6 +319,7 @@ def d_block_rotate(ciphertext,key):
         cipherblocks[i] = shift_string(cipherblocks[i], key[1], direction='r')
         plaintext = plaintext + cipherblocks[i].rstrip('q')
 
+    plaintext = insert_positions(plaintext, space_positions)
 
     return plaintext
 
@@ -330,7 +339,24 @@ Description:  Cryptanalysis of Block Rotate Cipher
 ---------------------------------------------------
 """
 def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
-    # your code here
+
+    dict_list = utilities.load_dictionary(DICT_FILE)
+    
+    if (arguments[0] > 0 and arguments[1]> 0) and (arguments[0] == arguments[1]) and arguments[2] == 0:
+        for i in range(arguments[1]):
+            
+            text = d_block_rotate(ciphertext, (arguments[1], i))
+            # print(text)
+            if utilities.is_plaintext(text, dict_list) == True:
+                return (arguments[1],i), d_block_rotate(ciphertext, (arguments[1],i))
+        
+
+    if (arguments[0] == 0 and arguments[1] == 0) and (arguments[2] > 0):
+        return (arguments[1],0), d_block_rotate(ciphertext, (arguments[1],0))
+
+    # if (arguments[0] > 0 and arguments[1]> 0):
+    #     for i in range()
+
     return '',''
 
 """
