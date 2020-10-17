@@ -320,7 +320,7 @@ def d_block_rotate(ciphertext,key):
         plaintext = plaintext + cipherblocks[i]
 
     plaintext = insert_positions(plaintext, space_positions)
-    plaintext = plaintext.rstrip('q')
+    plaintext = plaintext.rstrip(PAD)
 
     return plaintext
 
@@ -394,6 +394,8 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
                     return (i, j), text
+
+    # The last two if statements could be combined in a single if statement (maybe)
     
 
     return '',''
@@ -415,7 +417,27 @@ Description:  Formats a plaintext
 ----------------------------------------------------
 """
 def _format_playfair(plaintext):
-    # your code here
+
+    f_plaintext =  clean_text(plaintext, utilities.get_base('nonalpha'))
+
+    if len(f_plaintext) % 2 != 0:
+        plaintext = plaintext + 'x'
+
+
+    plaintext = plaintext.replace('w', 'vv')
+    plaintext = plaintext.replace('W', 'VV')
+    i = 0
+    while i < len(plaintext) - 1:
+      
+        if plaintext[i] == plaintext[i+1]:
+            plaintext = plaintext[:i+1] + 'x' + plaintext[i+2:]
+        
+        i += 1
+      
+    f_plaintext = plaintext
+
+
+
     return f_plaintext
 
 """
