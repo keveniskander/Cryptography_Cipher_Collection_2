@@ -429,8 +429,11 @@ def _format_playfair(plaintext):
     i = 0
     while i < len(plaintext) - 1:
       
-        if plaintext[i] == plaintext[i+1]:
+        if plaintext[i] == plaintext[i+1] and plaintext[i].isupper() == True:
+            plaintext = plaintext[:i+1] + 'X' + plaintext[i+2:]
+        if plaintext[i] == plaintext[i+1] and plaintext[i].islower() == True:
             plaintext = plaintext[:i+1] + 'x' + plaintext[i+2:]
+
         
         i += 1
       
