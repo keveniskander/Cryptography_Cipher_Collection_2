@@ -462,8 +462,10 @@ Description:  Restores a plaintext by:
 Asserts:      None
 ----------------------------------------------------
 """
-def _restore_playfair(text):   
-    # your code here
+def _restore_playfair(text): 
+
+    r_text =  clean_text(text, utilities.get_base('nonalpha'))
+
     return r_text
 
 """
@@ -478,7 +480,41 @@ Asserts:      None
 ----------------------------------------------------
 """
 def _restore_word_playfair(word,dict_list):
-    # your code here
+    
+    new_word = word
+    x_count = 0
+    i = 0
+    if utilities.is_plaintext(new_word, dict_list, 1) == True:
+        return new_word
+    else:
+        while i < len(new_word):
+            if new_word[i] == 'x' and i != 0 and x_count < 2:
+                # print('test')
+                new_word = new_word[:i] + new_word[i-1] + new_word[i+1:]
+                if utilities.is_plaintext(word, dict_list, 1) == True:
+                    return new_word
+                x_count+=1
+            i+=1
+
+    if utilities.is_plaintext(new_word, dict_list, 1) == False:
+        j = 0
+        x_count = 0
+        x_skip = 1
+        new_word = word
+        while j < len(new_word):
+            if new_word[j] == 'x' and j != 0 and x_count < 2:
+                # print('test')
+                if x_skip == 0:
+                    x_skip-=1
+                    new_word = new_word[:j] + new_word[j-1] + new_word[j+1:]
+                    if utilities.is_plaintext(word, dict_list, 1) == True:
+                        return new_word
+                else:
+                    x_skip-=1
+                x_count+=1
+            j+=1
+
+    
     return new_word
 
 """
