@@ -466,6 +466,43 @@ def _restore_playfair(text):
 
     r_text =  clean_text(text, utilities.get_base('nonalpha'))
 
+    if len(r_text) % 2 != 0:
+        r_text = r_text.rstrip('x')
+
+    r_text = r_text.replace('vv', 'w')
+    r_text = r_text.replace('VV', 'W')
+
+    word_list = utilities.text_to_words(r_text)
+    dict_list = utilities.load_dictionary(DICT_FILE)
+
+    new_text = ''
+
+    positions = []
+
+    i = 0
+    while i < len(r_text):
+      
+        if r_text[i] == 'V' and r_text[i+1] == 'X':
+            r_text = r_text[:i+1] + 'W' + r_text[i+2:]
+        if r_text[i] == 'v' and r_text[i+1] == 'x':
+            r_text = r_text[:i+1] + 'w' + r_text[i+2:]
+
+        
+        i += 1
+
+    for a in range(len(r_text)):
+        if r_text[a] == ' ':
+            positions.append([' ',a])
+
+    r_text = clean_text(r_text,' ')
+
+    for i in range(len(word_list)):
+        word_list[i] = _restore_word_playfair(word_list[i], dict_list)
+        new_text = new_text + word_list[i]
+
+    new_text = insert_positions(new_text, positions)
+    r_text = new_text
+
     return r_text
 
 """
