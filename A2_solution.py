@@ -426,8 +426,16 @@ def _format_playfair(plaintext):
 
     plaintext = plaintext.replace('w', 'vv')
     plaintext = plaintext.replace('W', 'VV')
+
+    positions = []
+    for a in range(len(plaintext)):
+        if plaintext[a] == ' ':
+            positions.append([' ',a])
+
+    plaintext = clean_text(plaintext,' ')
+
     i = 0
-    while i < len(plaintext) - 1:
+    while i < len(plaintext)-1:
       
         if plaintext[i] == plaintext[i+1] and plaintext[i].isupper() == True:
             plaintext = plaintext[:i+1] + 'X' + plaintext[i+2:]
@@ -435,9 +443,9 @@ def _format_playfair(plaintext):
             plaintext = plaintext[:i+1] + 'x' + plaintext[i+2:]
 
         
-        i += 1
+        i += 2
       
-    f_plaintext = plaintext
+    f_plaintext = insert_positions(plaintext, positions)
 
 
 
