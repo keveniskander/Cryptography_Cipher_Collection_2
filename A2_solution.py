@@ -464,35 +464,25 @@ Asserts:      None
 """
 def _restore_playfair(text): 
 
-    r_text =  clean_text(text, utilities.get_base('nonalpha'))
-
+    # r_text =  clean_text(text, utilities.get_base('nonalpha'))
+    r_text = text
     if len(r_text) % 2 != 0:
         r_text = r_text.rstrip('x')
 
-    r_text = r_text.replace('vv', 'w')
-    r_text = r_text.replace('VV', 'W')
 
     word_list = utilities.text_to_words(r_text)
     dict_list = utilities.load_dictionary(DICT_FILE)
 
     new_text = ''
 
+    specials = utilities.get_base('nonalpha')
     positions = []
-
-    i = 0
-    while i < len(r_text):
-      
-        if r_text[i] == 'V' and r_text[i+1] == 'X':
-            r_text = r_text[:i+1] + 'W' + r_text[i+2:]
-        if r_text[i] == 'v' and r_text[i+1] == 'x':
-            r_text = r_text[:i+1] + 'w' + r_text[i+2:]
-
-        
-        i += 1
 
     for a in range(len(r_text)):
         if r_text[a] == ' ':
             positions.append([' ',a])
+        if r_text[a] in specials:
+            positions.append([r_text[a],a])
 
     r_text = clean_text(r_text,' ')
 
@@ -502,6 +492,24 @@ def _restore_playfair(text):
 
     new_text = insert_positions(new_text, positions)
     r_text = new_text
+
+    
+
+    i = 0
+    while i < len(r_text):
+      
+        if r_text[i] == 'V' and r_text[i+1] == 'X':
+            r_text = r_text[:i+1] + 'V' + r_text[i+2:]
+            # r_text = r_text.replace('VV', 'W')
+        if r_text[i] == 'v' and r_text[i+1] == 'x':
+            r_text = r_text[:i+1] + 'v' + r_text[i+2:]
+            # r_text = r_text.replace('vv', 'w')
+            # print(r_text)
+        
+        i += 1 
+
+    r_text = r_text.replace('VV', 'W')
+    r_text = r_text.replace('vv', 'w')
 
     return r_text
 
