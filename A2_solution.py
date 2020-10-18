@@ -597,7 +597,52 @@ Asserts:      plaintext is a string and key is a list
 ----------------------------------------------------
 """
 def e_playfair(plaintext, key):
-    # your code here
+    
+    assert type(plaintext) == str
+    assert type(key) == list
+    
+    ciphertext = _format_playfair(plaintext)
+
+    cipherblock = text_to_blocks(ciphertext, 2)
+    print(cipherblock)
+
+    
+    for i in range(len(cipherblock)):
+
+        first = index_2d(key, cipherblock[i][0].upper())
+        second = index_2d(key, cipherblock[i][1].upper())
+
+        fi = first[0]
+        fj = first[1]
+        si = second[0]
+        sj = second[1]
+
+        # print(fi,fj,si,sj)
+        if fi == si:
+            if fj != len(key[fj]):
+                fj+=1
+            else:
+                fj = 0
+            if sj != len(key[sj]):
+                sj+=1
+            else:
+                sj = 0
+            
+        if fj == sj:
+            if fi != len(key[fi]):
+                fi +=1
+            else:
+                fi = 0
+            if si != len(key[si]):
+                si+=1
+            else:
+                si = 0
+        cipherblock[i] = key[fi][fj] + key[si][sj]
+        
+
+
+    print(cipherblock)
+
     return ciphertext
 
 """
