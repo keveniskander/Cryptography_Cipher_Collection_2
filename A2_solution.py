@@ -631,7 +631,7 @@ def e_playfair(plaintext, key):
         si = second[0]
         sj = second[1]
 
-        print(cipherblock, fi, fj, si, sj, ciphertext)
+        # print(cipherblock, fi, fj, si, sj, ciphertext)
 
         # print(fi,fj,si,sj)
         if fi == si and fi != -1 and si != -1:
@@ -677,27 +677,31 @@ def e_playfair(plaintext, key):
 
                 sj=0 #+ (second[1]-first[1])
         
-        print(cipherblock, fi, fj, si, sj)
+        # print(cipherblock, fi, fj, si, sj)
         if fi < 0 or fj < 0:
-            cipherblock[i] = ' ' + key[si][sj]
+            if cipherblock[i][1].islower():
+                cipherblock[i] = ' ' + key[si][sj].lower()
+            else:
+                cipherblock[i] = ' ' + key[si][sj]
         elif si < 0 or sj < 0:
-            cipherblock[i] = key[fi][fj] + ' '
+            if cipherblock[i][0].islower():
+                cipherblock[i] = key[fi][fj].lower() + ' '
+            else:
+                cipherblock[i] = key[fi][fj] + ' '
         else:
-            cipherblock[i] = key[fi][fj] + key[si][sj]
+            if cipherblock[i].islower():
+                cipherblock[i] = key[fi][fj].lower() + key[si][sj].lower()
+            elif cipherblock[i][0].islower()==False and cipherblock[i][1].islower()==True:
+                cipherblock[i] = key[fi][fj] + key[si][sj].lower()
+            elif cipherblock[i][0].islower()==True and cipherblock[i][1].islower()==False:
+                cipherblock[i] = key[fi][fj].lower() + key[si][sj]
+            else:
+                cipherblock[i] = key[fi][fj] + key[si][sj]
         new_text+=cipherblock[i]
 
-
-    # print(cipherblock)
-    # print(new_text)
     
     ciphertext = new_text
     ciphertext = insert_positions(ciphertext, positions)
-
-    if plaintext[0].islower():
-        ciphertext = ciphertext.lower()
-    if plaintext[0].isupper():
-        ciphertext = ciphertext.lower()
-        ciphertext[0].capitalize()
 
     return ciphertext
 
