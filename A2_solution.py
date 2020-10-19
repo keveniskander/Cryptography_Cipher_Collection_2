@@ -603,6 +603,18 @@ def e_playfair(plaintext, key):
     
     ciphertext = _format_playfair(plaintext)
 
+    specials = utilities.get_base('nonalpha')
+    positions = []
+
+    for a in range(len(ciphertext)):
+        if ciphertext[a] == ' ':
+            positions.append([' ',a])
+        if ciphertext[a] in specials:
+            positions.append([ciphertext[a],a])
+
+    ciphertext = clean_text(ciphertext,' ')
+    ciphertext = clean_text(ciphertext, specials)
+
     cipherblock = text_to_blocks(ciphertext, 2)
     # print(cipherblock)
 
@@ -633,11 +645,11 @@ def e_playfair(plaintext, key):
                 sj = 0
             
         elif fj == sj and fj != -1 and sj != -1:
-            if fi != len(key[fi]):
+            if fi != len(key)-1:
                 fi +=1
             else:
                 fi = 0
-            if si != len(key[si]):
+            if si != len(key)-1:
                 si+=1
             else:
                 si = 0
@@ -645,7 +657,7 @@ def e_playfair(plaintext, key):
         elif sj < fj and sj != -1 and fj != -1:
             # print('TEST')
             if first[1] - (first[1]-second[1])>=0:
-                fj = fj - (fj-sj)
+                fj = fj - (first[1]-second[1])
             else:
                 fj = len(key)-1
             if second[1] + (first[1]-second[1]) < 5:
@@ -653,29 +665,39 @@ def e_playfair(plaintext, key):
             else:
                 sj = len(key)-1
 
-        elif fj < sj and fj != -1 and sj != -2:
+        elif fj < sj and fj != -1 and sj != -1:
             if first[1] - (first[1]-second[1]) >= 0:
-                fj = fj - (fj-sj)
+                fj = fj - (first[1]-second[1])
             else:
                 fj = 0
-            if second[1] + (second[1]-first[1]) < 5:
+            if second[1] - (second[1]-first[1]) >= 0:
                 sj = sj - (second[1]-first[1])
             else:
-                sj=0
+                # print('TEST')
+
+                sj=0 #+ (second[1]-first[1])
         
         print(cipherblock, fi, fj, si, sj)
-        if fi == 0 or fj == 0:
+        if fi < 0 or fj < 0:
             cipherblock[i] = ' ' + key[si][sj]
-        elif si == 0 or sj == 0:
+        elif si < 0 or sj < 0:
             cipherblock[i] = key[fi][fj] + ' '
         else:
             cipherblock[i] = key[fi][fj] + key[si][sj]
         new_text+=cipherblock[i]
-        
+
 
     # print(cipherblock)
     # print(new_text)
+    
     ciphertext = new_text
+    ciphertext = insert_positions(ciphertext, positions)
+
+    if plaintext[0].islower():
+        ciphertext = ciphertext.lower()
+    if plaintext[0].isupper():
+        ciphertext = ciphertext.lower()
+        ciphertext[0].capitalize()
 
     return ciphertext
 
