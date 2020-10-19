@@ -622,7 +622,7 @@ def e_playfair(plaintext, key):
         print(cipherblock, fi, fj, si, sj, ciphertext)
 
         # print(fi,fj,si,sj)
-        if fi == si:
+        if fi == si and fi != -1 and si != -1:
             if fj != len(key[fj]):
                 fj+=1
             else:
@@ -632,7 +632,7 @@ def e_playfair(plaintext, key):
             else:
                 sj = 0
             
-        elif fj == sj:
+        elif fj == sj and fj != -1 and sj != -1:
             if fi != len(key[fi]):
                 fi +=1
             else:
@@ -642,7 +642,7 @@ def e_playfair(plaintext, key):
             else:
                 si = 0
 
-        elif sj < fj:
+        elif sj < fj and sj != -1 and fj != -1:
             # print('TEST')
             if first[1] - (first[1]-second[1])>=0:
                 fj = fj - (fj-sj)
@@ -653,7 +653,7 @@ def e_playfair(plaintext, key):
             else:
                 sj = len(key)-1
 
-        elif fj < sj:
+        elif fj < sj and fj != -1 and sj != -2:
             if first[1] - (first[1]-second[1]) >= 0:
                 fj = fj - (fj-sj)
             else:
@@ -664,7 +664,12 @@ def e_playfair(plaintext, key):
                 sj=0
         
         print(cipherblock, fi, fj, si, sj)
-        cipherblock[i] = key[fi][fj] + key[si][sj]
+        if fi == 0 or fj == 0:
+            cipherblock[i] = ' ' + key[si][sj]
+        elif si == 0 or sj == 0:
+            cipherblock[i] = key[fi][fj] + ' '
+        else:
+            cipherblock[i] = key[fi][fj] + key[si][sj]
         new_text+=cipherblock[i]
         
 
