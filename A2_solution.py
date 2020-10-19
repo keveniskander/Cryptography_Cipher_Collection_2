@@ -604,7 +604,7 @@ def e_playfair(plaintext, key):
     ciphertext = _format_playfair(plaintext)
 
     cipherblock = text_to_blocks(ciphertext, 2)
-    print(cipherblock)
+    # print(cipherblock)
 
     new_text = ''
 
@@ -618,6 +618,8 @@ def e_playfair(plaintext, key):
         fj = first[1]
         si = second[0]
         sj = second[1]
+
+        print(cipherblock, fi, fj, si, sj, ciphertext)
 
         # print(fi,fj,si,sj)
         if fi == si:
@@ -641,22 +643,34 @@ def e_playfair(plaintext, key):
                 si = 0
 
         elif sj < fj:
-            print('TEST')
-            if fj != 0:
-                fj-=1
+            # print('TEST')
+            if first[1] - (first[1]-second[1])>=0:
+                fj = fj - (fj-sj)
             else:
-                fj = len(key[fi])
-            if sj != 0:
-                sj+=1
+                fj = len(key)-1
+            if second[1] + (first[1]-second[1]) < 5:
+                sj = sj + (first[1]-second[1])
             else:
-                sj = len(key[si])
+                sj = len(key)-1
 
+        elif fj < sj:
+            if first[1] - (first[1]-second[1]) >= 0:
+                fj = fj - (fj-sj)
+            else:
+                fj = 0
+            if second[1] + (second[1]-first[1]) < 5:
+                sj = sj - (second[1]-first[1])
+            else:
+                sj=0
+        
+        print(cipherblock, fi, fj, si, sj)
         cipherblock[i] = key[fi][fj] + key[si][sj]
         new_text+=cipherblock[i]
         
 
-    print(cipherblock)
-    print(new_text)
+    # print(cipherblock)
+    # print(new_text)
+    ciphertext = new_text
 
     return ciphertext
 
@@ -671,7 +685,12 @@ Asserts:      ciphertext is a string and key is a list
 ----------------------------------------------------
 """
 def d_playfair(ciphertext, key):
-    # your code here
+    
+    assert type(ciphertext) == str
+    assert type(key) == list
+
+    plaintext = _restore_playfair(ciphertext)
+
     return plaintext
 
 """
