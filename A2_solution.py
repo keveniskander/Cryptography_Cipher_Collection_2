@@ -606,6 +606,8 @@ def e_playfair(plaintext, key):
     cipherblock = text_to_blocks(ciphertext, 2)
     print(cipherblock)
 
+    new_text = ''
+
     
     for i in range(len(cipherblock)):
 
@@ -628,7 +630,7 @@ def e_playfair(plaintext, key):
             else:
                 sj = 0
             
-        if fj == sj:
+        elif fj == sj:
             if fi != len(key[fi]):
                 fi +=1
             else:
@@ -637,11 +639,24 @@ def e_playfair(plaintext, key):
                 si+=1
             else:
                 si = 0
+
+        elif sj < fj:
+            print('TEST')
+            if fj != 0:
+                fj-=1
+            else:
+                fj = len(key[fi])
+            if sj != 0:
+                sj+=1
+            else:
+                sj = len(key[si])
+
         cipherblock[i] = key[fi][fj] + key[si][sj]
+        new_text+=cipherblock[i]
         
 
-
     print(cipherblock)
+    print(new_text)
 
     return ciphertext
 
