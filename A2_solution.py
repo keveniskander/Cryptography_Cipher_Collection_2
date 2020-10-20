@@ -417,12 +417,9 @@ Description:  Formats a plaintext
 ----------------------------------------------------
 """
 def _format_playfair(plaintext):
-
-    f_plaintext =  clean_text(plaintext, utilities.get_base('nonalpha'))
-
-    if len(f_plaintext) % 2 != 0:
-        plaintext = plaintext + 'x'
-
+    
+    # plaintext =  clean_text(plaintext, utilities.get_base('nonalpha'))
+    special = utilities.get_base('nonalpha')
 
     plaintext = plaintext.replace('w', 'vv')
     plaintext = plaintext.replace('W', 'VV')
@@ -431,12 +428,18 @@ def _format_playfair(plaintext):
     for a in range(len(plaintext)):
         if plaintext[a] == ' ':
             positions.append([' ',a])
+        if plaintext[a] in special:
+            positions.append([plaintext[a],a])
+        if plaintext[a] == '\n':
+            positions.append([plaintext[a],a])
 
     plaintext = clean_text(plaintext,' ')
+    plaintext = clean_text(plaintext,special)
+    plaintext = clean_text(plaintext,'\n')
 
-    i = 0
+    i=0
     while i < len(plaintext)-1:
-      
+          
         if plaintext[i] == plaintext[i+1] and plaintext[i].isupper() == True:
             plaintext = plaintext[:i+1] + 'X' + plaintext[i+2:]
         if plaintext[i] == plaintext[i+1] and plaintext[i].islower() == True:
@@ -444,12 +447,17 @@ def _format_playfair(plaintext):
 
         
         i += 2
+
+
+    if len(plaintext) % 2 != 0:
+        plaintext = plaintext + 'x'
+    
       
-    f_plaintext = insert_positions(plaintext, positions)
+    plaintext = insert_positions(plaintext, positions)
 
 
 
-    return f_plaintext
+    return plaintext
 
 """
 ----------------------------------------------------
@@ -606,6 +614,7 @@ def e_playfair(plaintext, key):
     assert type(key) == list
     
     ciphertext = _format_playfair(plaintext)
+    # print(ciphertext)
 
     specials = utilities.get_base('nonalpha')
     positions = []
@@ -620,9 +629,10 @@ def e_playfair(plaintext, key):
 
     ciphertext = clean_text(ciphertext,' ')
     ciphertext = clean_text(ciphertext, specials)
-    cipherblock = clean_text(ciphertext, '\n')
+    ciphertext = clean_text(ciphertext, '\n')
 
     cipherblock = text_to_blocks(ciphertext, 2)
+    # print(cipherblock, ciphertext)
     # print(cipherblock)
 
     new_text = ''
@@ -631,7 +641,8 @@ def e_playfair(plaintext, key):
     for i in range(len(cipherblock)):
 
         first = index_2d(key, cipherblock[i][0].upper())
-        second = index_2d(key, cipherblock[i][1].upper())
+        if len(cipherblock[i])!=1:
+            second = index_2d(key, cipherblock[i][1].upper())
 
         fi = first[0]
         fj = first[1]
@@ -639,7 +650,7 @@ def e_playfair(plaintext, key):
         sj = second[1]
 
         # print(cipherblock, fi, fj, si, sj, ciphertext)
-
+        # print(cipherblock)
         # print(fi,fj,si,sj)
         if fi == si and fi != -1 and si != -1:
             # print('TEST1')
@@ -687,7 +698,7 @@ def e_playfair(plaintext, key):
 
                 sj=0 #+ (second[1]-first[1])
         
-        print(cipherblock[i], fi, fj, si, sj)
+        # print(cipherblock[i], fi, fj, si, sj)
         if fi < 0 or fj < 0:
             if cipherblock[i][1].islower():
                 cipherblock[i] = ' ' + key[si][sj].lower()
@@ -712,6 +723,9 @@ def e_playfair(plaintext, key):
     
     ciphertext = new_text
     ciphertext = insert_positions(ciphertext, positions)
+
+    # print(cipherblock)
+    # print(ciphertext)
 
     return ciphertext
 
