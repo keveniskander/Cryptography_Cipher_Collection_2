@@ -891,7 +891,28 @@ Asserts:      None
 ----------------------------------------------------
 """
 def _get_order_ct(key):
-    # your code here
+
+    if type(key)!= str:
+        return []
+    
+    key_order = []
+
+    key = ''.join([j for i,j in enumerate(key) if j not in key[:i]])
+    key = clean_text(key, ' ')
+
+    all_char = utilities.get_base('all')
+    # print(key)
+
+    if len(key) == 1:
+        return [0]
+    else:
+
+        for i in range(len(all_char)):
+            for j in range(len(key)):
+                if key[j] == all_char[i] and key.index(key[j]) not in key_order:
+                    # print(key.index(key[j]),key[j])
+                    key_order.append(key.index(key[j]))
+
     return key_order
 
 """
