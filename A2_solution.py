@@ -950,9 +950,11 @@ def e_ct(plaintext,key):
     ciphertext = clean_text(ciphertext, '\n')
     ciphertext = clean_text(ciphertext, '\t')
 
-    columnar_table = utilities.new_matrix(math.ceil(len(plaintext)/len(key)), len(key), PAD)
-
-    # print(columnar_table)
+    key_order = _get_order_ct(key)
+    columnar_table = utilities.new_matrix(math.ceil(len(ciphertext)/len(key_order)),len(key_order), PAD)
+    
+    # for i in range(len(columnar_table)):
+    #     print(columnar_table[i])
 
     k = 0
     for i in range(len(columnar_table)):
@@ -963,9 +965,8 @@ def e_ct(plaintext,key):
             else:
                 columnar_table[i][j] = PAD
 
-    key_order = _get_order_ct(key)
-
-
+    
+    # print(key_order)
     for i in range(len(columnar_table)):
         print(columnar_table[i])
     
@@ -977,6 +978,9 @@ def e_ct(plaintext,key):
             # print(ciphertext)
 
     # print(ciphertext)
+
+    ciphertext = insert_positions(ciphertext,positions)
+    ciphertext = ciphertext.rstrip(PAD)
 
     return ciphertext
 
