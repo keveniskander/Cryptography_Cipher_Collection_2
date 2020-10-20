@@ -937,34 +937,46 @@ def e_ct(plaintext,key):
         return ''
     
     positions = []
-    for a in range(len(plaintext)):
-        if plaintext[a] == ' ':
-            positions.append([plaintext[a], a])
-        if plaintext[a] == '\n':
-            positions.append([plaintext[a], a])
-        if plaintext[a] == '\t':
-            positions.append([plaintext[a], a])
+    ciphertext = plaintext
+    for a in range(len(ciphertext)):
+        if ciphertext[a] == ' ':
+            positions.append([ciphertext[a], a])
+        if ciphertext[a] == '\n':
+            positions.append([ciphertext[a], a])
+        if ciphertext[a] == '\t':
+            positions.append([ciphertext[a], a])
     
-    plaintext = clean_text(plaintext, ' ')
-    plaintext = clean_text(plaintext, '\n')
-    plaintext = clean_text(plaintext, '\t')
+    ciphertext = clean_text(ciphertext, ' ')
+    ciphertext = clean_text(ciphertext, '\n')
+    ciphertext = clean_text(ciphertext, '\t')
 
-    columnar_table = [[[] for i in range(len(key))] for j in range(math.ceil(len(plaintext)/len(key)))]
+    columnar_table = utilities.new_matrix(math.ceil(len(plaintext)/len(key)), len(key), PAD)
 
     # print(columnar_table)
 
     k = 0
     for i in range(len(columnar_table)):
         for j in range(len(columnar_table[i])):
-            if k < len(plaintext):
-                columnar_table[i][j] = plaintext[k]
+            if k < len(ciphertext):
+                columnar_table[i][j] = ciphertext[k]
                 k+=1
             else:
                 columnar_table[i][j] = PAD
 
+    key_order = _get_order_ct(key)
 
-    print(columnar_table)
 
+    for i in range(len(columnar_table)):
+        print(columnar_table[i])
+    
+    ciphertext = ''
+    for i in range(len(key_order)):
+        for j in range(len(columnar_table)):
+            ciphertext = ciphertext + columnar_table[j][key_order[i]]
+            # print(key_order[i],j)
+            # print(ciphertext)
+
+    # print(ciphertext)
 
     return ciphertext
 
