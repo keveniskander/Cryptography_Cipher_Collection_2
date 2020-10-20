@@ -762,19 +762,89 @@ def d_playfair(ciphertext, key):
 
     plainblock = text_to_blocks(plaintext, 2)
     # print(cipherblock, ciphertext)
-    # print(cipherblock)
+    print(plainblock)
 
     new_text = ''
 
     for i in range(len(plainblock)):
 
-        first = index_2d(key, plainblock).upper()
-        second = index_2d(key, plainblock).upper()
+        first = index_2d(key, plainblock[i][0].upper())
+        second = index_2d(key, plainblock[i][1].upper())
 
         fi = first[0]
-        fj = first[1]
         si = second[0]
+        fj = first[1]
         sj = second[1]
+
+        if fi == si and fi != -1 and si != -1:
+            # print('TEST1')
+            if fj != 0:
+                fj-=1
+            else:
+                fj = len(key)-1
+            if sj != 0:
+                sj-=1
+            else:
+                sj = len(key)-1
+
+        elif fj == sj and fj != -1 and sj != -1:
+            # print('TEST2')
+            if fi != 0:
+                fi -=1
+            else:
+                fi = len(key)-1
+            if si != 0:
+                si-=1
+            else:
+                si = len(key)-1
+
+        elif fj < sj and sj != -1 and fj != -1:
+            # print('TEST3')
+            if first[1] - (first[1]-second[1])>=0:
+                fj = fj - (first[1]-second[1])
+            else:
+                fj = len(key)-1
+            if second[1] + (first[1]-second[1]) < 5:
+                sj = sj + (first[1]-second[1])
+            else:
+                sj = len(key)-1
+
+        elif sj < fj and fj != -1 and sj != -1:
+            # print('TEST4')
+            if first[1] - (first[1]-second[1]) >= 0:
+                fj = fj - (first[1]-second[1])
+            else:
+                fj = 0
+            if second[1] - (second[1]-first[1]) >= 0:
+                sj = sj - (second[1]-first[1])
+            else:
+                # print('TEST')
+                sj = 0
+        #         sj=len(key)-1 #+ (second[1]-first[1])
+
+        if fi < 0 or fj < 0:
+            if plainblock[i][1].islower():
+                plainblock[i] = ' ' + key[si][sj].lower()
+            else:
+                plainblock[i] = ' ' + key[si][sj]
+        elif si < 0 or sj < 0:
+            if plainblock[i][0].islower():
+                plainblock[i] = key[fi][fj].lower() + ' '
+            else:
+                plainblock[i] = key[fi][fj] + ' '
+        else:
+            if plainblock[i].islower():
+                plainblock[i] = key[fi][fj].lower() + key[si][sj].lower()
+            elif plainblock[i][0].islower()==False and plainblock[i][1].islower()==True:
+                plainblock[i] = key[fi][fj] + key[si][sj].lower()
+            elif plainblock[i][0].islower()==True and plainblock[i][1].islower()==False:
+                plainblock[i] = key[fi][fj].lower() + key[si][sj]
+            else:
+                plainblock[i] = key[fi][fj] + key[si][sj]
+        new_text+=plainblock[i]
+
+    plaintext = new_text
+    plaintext = insert_positions(plaintext, positions)
 
 
     return plaintext
