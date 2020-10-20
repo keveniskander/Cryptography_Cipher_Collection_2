@@ -641,8 +641,7 @@ def e_playfair(plaintext, key):
     for i in range(len(cipherblock)):
 
         first = index_2d(key, cipherblock[i][0].upper())
-        if len(cipherblock[i])!=1:
-            second = index_2d(key, cipherblock[i][1].upper())
+        second = index_2d(key, cipherblock[i][1].upper())
 
         fi = first[0]
         fj = first[1]
@@ -745,6 +744,38 @@ def d_playfair(ciphertext, key):
     assert type(key) == list
 
     plaintext = _restore_playfair(ciphertext)
+
+    specials = utilities.get_base('nonalpha')
+    positions = []
+
+    for a in range(len(plaintext)):
+        if plaintext[a] == ' ':
+            positions.append([' ',a])
+        if plaintext[a] in specials:
+            positions.append([plaintext[a],a])
+        if plaintext[a] == '\n':
+            positions.append([plaintext[a],a])
+
+    plaintext = clean_text(plaintext,' ')
+    plaintext = clean_text(plaintext, specials)
+    plaintext = clean_text(plaintext, '\n')
+
+    plainblock = text_to_blocks(plaintext, 2)
+    # print(cipherblock, ciphertext)
+    # print(cipherblock)
+
+    new_text = ''
+
+    for i in range(len(plainblock)):
+
+        first = index_2d(key, plainblock).upper()
+        second = index_2d(key, plainblock).upper()
+
+        fi = first[0]
+        fj = first[1]
+        si = second[0]
+        sj = second[1]
+
 
     return plaintext
 
