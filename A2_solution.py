@@ -483,8 +483,12 @@ def _restore_playfair(text):
             positions.append([' ',a])
         if r_text[a] in specials:
             positions.append([r_text[a],a])
+        if r_text[a] == '\n':
+            positions.append([r_text[a],a])
 
     r_text = clean_text(r_text,' ')
+    r_text = clean_text(r_text, specials)
+    r_text = clean_text(r_text, '\n')
 
     for i in range(len(word_list)):
         word_list[i] = _restore_word_playfair(word_list[i], dict_list)
@@ -635,16 +639,18 @@ def e_playfair(plaintext, key):
 
         # print(fi,fj,si,sj)
         if fi == si and fi != -1 and si != -1:
-            if fj != len(key[fj]):
+            # print('TEST1')
+            if fj != len(key)-1:
                 fj+=1
             else:
                 fj = 0
-            if sj != len(key[sj]):
+            if sj != len(key)-1:
                 sj+=1
             else:
                 sj = 0
             
         elif fj == sj and fj != -1 and sj != -1:
+            # print('TEST2')
             if fi != len(key)-1:
                 fi +=1
             else:
@@ -655,7 +661,7 @@ def e_playfair(plaintext, key):
                 si = 0
 
         elif sj < fj and sj != -1 and fj != -1:
-            # print('TEST')
+            # print('TEST3')
             if first[1] - (first[1]-second[1])>=0:
                 fj = fj - (first[1]-second[1])
             else:
@@ -666,6 +672,7 @@ def e_playfair(plaintext, key):
                 sj = len(key)-1
 
         elif fj < sj and fj != -1 and sj != -1:
+            # print('TEST4')
             if first[1] - (first[1]-second[1]) >= 0:
                 fj = fj - (first[1]-second[1])
             else:
@@ -677,7 +684,7 @@ def e_playfair(plaintext, key):
 
                 sj=0 #+ (second[1]-first[1])
         
-        # print(cipherblock, fi, fj, si, sj)
+        print(cipherblock[i], fi, fj, si, sj)
         if fi < 0 or fj < 0:
             if cipherblock[i][1].islower():
                 cipherblock[i] = ' ' + key[si][sj].lower()
