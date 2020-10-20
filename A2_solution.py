@@ -929,7 +929,43 @@ Errors:       if key is invalid:
 ----------------------------------------------------
 """
 def e_ct(plaintext,key):
-    # your code here
+    
+    assert type(plaintext) == str
+
+    if _get_order_ct(key) == []:
+        print('Error(e_ct): invalid key')
+        return ''
+    
+    positions = []
+    for a in range(len(plaintext)):
+        if plaintext[a] == ' ':
+            positions.append([plaintext[a], a])
+        if plaintext[a] == '\n':
+            positions.append([plaintext[a], a])
+        if plaintext[a] == '\t':
+            positions.append([plaintext[a], a])
+    
+    plaintext = clean_text(plaintext, ' ')
+    plaintext = clean_text(plaintext, '\n')
+    plaintext = clean_text(plaintext, '\t')
+
+    columnar_table = [[[] for i in range(len(key))] for j in range(math.ceil(len(plaintext)/len(key)))]
+
+    # print(columnar_table)
+
+    k = 0
+    for i in range(len(columnar_table)):
+        for j in range(len(columnar_table[i])):
+            if k < len(plaintext):
+                columnar_table[i][j] = plaintext[k]
+                k+=1
+            else:
+                columnar_table[i][j] = PAD
+
+
+    print(columnar_table)
+
+
     return ciphertext
 
 """
@@ -944,5 +980,8 @@ Errors:       if key is invalid:
 ----------------------------------------------------
 """
 def d_ct(ciphertext,key):
-    # your code here
+    
+    assert type(ciphertext) == str
+
+    plaintext = ciphertext
     return plaintext
