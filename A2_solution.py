@@ -898,9 +898,9 @@ def _get_order_ct(key):
     key_order = []
 
     key = ''.join([j for i,j in enumerate(key) if j not in key[:i]])
-    key = clean_text(key, ' ')
+    # key = clean_text(key, ' ')
 
-    all_char = utilities.get_base('all')
+    all_char = ' ' + utilities.get_base('all')
     # print(key)
 
     if len(key) == 1:
