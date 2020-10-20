@@ -615,9 +615,12 @@ def e_playfair(plaintext, key):
             positions.append([' ',a])
         if ciphertext[a] in specials:
             positions.append([ciphertext[a],a])
+        if ciphertext[a] == '\n':
+            positions.append([ciphertext[a],a])
 
     ciphertext = clean_text(ciphertext,' ')
     ciphertext = clean_text(ciphertext, specials)
+    cipherblock = clean_text(ciphertext, '\n')
 
     cipherblock = text_to_blocks(ciphertext, 2)
     # print(cipherblock)
