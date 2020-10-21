@@ -500,7 +500,7 @@ def _restore_playfair(text):
 
    
 
-    if len(r_text)-1 % 2 != 0:
+    if utilities.is_plaintext(r_text.rstrip('x'), dict_list)==True:
         r_text = r_text.rstrip('x')
         # print(r_text)
         # print('YES')
