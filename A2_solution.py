@@ -768,6 +768,7 @@ def d_playfair(ciphertext, key):
     specials = utilities.get_base('nonalpha')
     positions = []
 
+    # this position population loop can be replaced by get_positions function
     for a in range(len(plaintext)):
         if plaintext[a] == ' ':
             positions.append([' ',a])
@@ -999,5 +1000,52 @@ def d_ct(ciphertext,key):
     
     assert type(ciphertext) == str
 
+    if _get_order_ct(key) == []:
+        print('Error(d_ct): invalid key')
+        return ''
+
+    positions = []
     plaintext = ciphertext
+    for a in range(len(plaintext)):
+        if plaintext[a] == ' ':
+            positions.append([plaintext[a], a])
+        if plaintext[a] == '\n':
+            positions.append([plaintext[a], a])
+        if plaintext[a] == '\t':
+            positions.append([plaintext[a], a])
+    
+    plaintext = clean_text(plaintext, ' ')
+    plaintext = clean_text(plaintext, '\n')
+    plaintext = clean_text(plaintext, '\t') 
+
+    key_order = _get_order_ct(key)
+    columnar_table = utilities.new_matrix(math.ceil(len(plaintext)/len(key_order)),len(key_order), PAD)
+
+    k = 0
+    for i in range(len(columnar_table[k])):
+        for j in range(len(columnar_table)):
+            if k < len(plaintext):
+                columnar_table[j][key_order[i]] = plaintext[k]
+                k+=1
+            else:
+                columnar_table[j][i] = PAD
+    print(key_order)
+    
+    # for i in range(len(columnar_table)):
+    #     print(columnar_table[i])
+
+    plaintext = ''
+    for i in range(len(columnar_table)):
+        for j in range(len(key_order)):
+            plaintext = plaintext + columnar_table[i][j]
+            # print(key_order[i],j)
+            # print(ciphertext)
+
+    # print(ciphertext)
+
+    plaintext = insert_positions(plaintext,positions)
+    plaintext = plaintext.rstrip(PAD)
+
+
+
     return plaintext
