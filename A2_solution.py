@@ -74,7 +74,7 @@ def clean_text(text,base):
     for i in range(len(text)):
         for j in range(len(base)):
             if text[i] == base[j]:
-                # print('ha', end='')
+                
                 updated_text = updated_text.replace(base[j], '')
 
 
@@ -125,7 +125,6 @@ def text_to_blocks(text,b_size,padding = 0,pad =PAD):
     while i < (len(text)):
         if len(text) - i < b_size and padding == 1:
            
-            # print('hey2')
             blocks.append(text[i:i+b_size] + (pad * (b_size-(len(text)-i))))
                 
         else:
@@ -163,7 +162,6 @@ def shift_string(text,shifts,direction='l'):
         else:
             shifts = abs(shifts) % len(text)
             shifts = -shifts
-            # print('less')
 
     if shifts > 0:
 
@@ -274,14 +272,10 @@ def e_block_rotate(plaintext,key):
         print("Error(e_block_rotate): invalid key")
     
     plainblocks = text_to_blocks(plaintext, key[0], padding=1, pad=PAD)
-    # print(cipherblocks)
 
     for i in range(len(plainblocks)):
         plainblocks[i] = shift_string(plainblocks[i], key[1], direction='l')
         ciphertext = ciphertext + plainblocks[i]
-
-    # for j in range(len(cipherblocks)):
-    #     ciphertext = ciphertext + cipherblocks[j]
 
     ciphertext = insert_positions(ciphertext, space_positions)
     
@@ -342,15 +336,12 @@ Description:  Cryptanalysis of Block Rotate Cipher
 def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
 
     dict_list = utilities.load_dictionary(DICT_FILE)
-
-    # if arguments[1] == 0:
-    #     arguments[1] = BLOCK_MAX_SIZE
     
     if (arguments[0] > 0 and arguments[1]> 0) and (arguments[0] == arguments[1]) and arguments[2] == 0:
         for i in range(arguments[1]):
             
             text = d_block_rotate(ciphertext, (arguments[1], i))
-            # print(text)
+
             if utilities.is_plaintext(text, dict_list) == True:
                 return (arguments[1],i), text
         
@@ -364,20 +355,19 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
                 return (i, arguments[2]), text
 
     if (arguments[0] > 0 or arguments[1]> 0) and arguments[2] == 0:
-        # print('test')
         
         if arguments[1] == 0:
             arguments[1] = BLOCK_MAX_SIZE
         if arguments[0] == 0:
             arguments[0] = 1
-        # print(arguments[0], arguments[1])
+
         for i in range(arguments[0], arguments[1]): 
 
             for j in range(arguments[1]):
                 
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
-                    # print(text)
+
                     return (i, j), text
 
         
@@ -394,8 +384,6 @@ def cryptanalysis_block_rotate(ciphertext,arguments=[0,0,0]):
                 text = d_block_rotate(ciphertext, (i, j))
                 if utilities.is_plaintext(text, dict_list) == True:
                     return (i, j), text
-
-    # The last two if statements could be combined in a single if statement (maybe)
     
 
     return '',''
@@ -418,7 +406,6 @@ Description:  Formats a plaintext
 """
 def _format_playfair(plaintext):
     
-    # plaintext =  clean_text(plaintext, utilities.get_base('nonalpha'))
     special = utilities.get_base('nonalpha')
 
     plaintext = plaintext.replace('w', 'vv')
@@ -968,8 +955,8 @@ def e_ct(plaintext,key):
 
     
     # print(key_order)
-    for i in range(len(columnar_table)):
-        print(columnar_table[i])
+    # for i in range(len(columnar_table)):
+    #     print(columnar_table[i])
     
     ciphertext = ''
     for i in range(len(key_order)):
@@ -1029,7 +1016,7 @@ def d_ct(ciphertext,key):
                 k+=1
             else:
                 columnar_table[j][i] = PAD
-    print(key_order)
+    # print(key_order)
     
     # for i in range(len(columnar_table)):
     #     print(columnar_table[i])
