@@ -500,10 +500,13 @@ def _restore_playfair(text):
 
    
 
-    if utilities.is_plaintext(r_text.rstrip('x'), dict_list)==True:
+    if len(r_text)-1 % 2 != 0:
         r_text = r_text.rstrip('x')
         # print(r_text)
         # print('YES')
+
+    # if is_plaintext(_restore_word_playfair(r_text.rstrip('x'), dict_list), dict_list):
+        # r_text = r_text.strip('x')
 
     word_list = utilities.text_to_words(r_text)
     # print(word_list)
