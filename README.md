@@ -18,7 +18,7 @@ https://www.python.org/downloads/
 
 1) Pull all files to a folder
 
-2) Run A1_test.py in cmd or using an interpreter (example: VS Code)
+2) Run A2_test.py in cmd or using an interpreter (example: VS Code)
 
 To run in cmd we first need to cd the project directory
 
@@ -29,7 +29,7 @@ cd C:\Users\...directory
 Then we run the script:
 
 ```
-python A1_test.py
+python A2_test.py
 ```
 
 Assuming the latest version of python is installed to your system.
